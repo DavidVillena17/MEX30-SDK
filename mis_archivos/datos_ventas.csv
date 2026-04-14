@@ -1,0 +1,11 @@
+id_transaccion,producto,cantidad,precio_unitario,categoria
+1,Laptop,1,1200.50,Electronica
+2,Mouse,3,25.00,Electronica
+3,Teclado,2,45.99,Electronica
+4,Monitor,1,300.00,Electronica
+5,Silla Gamer,1,250.00,Mobiliario
+6,Escritorio,1,150.00,Mobiliario
+7,Lampara,2,15.50,Hogar
+8,Audifonos,1,80.00,Electronica
+9,Cable HDMI,5,10.00,Electronica
+10,Tapete Mouse,2,12.00,Hogar
