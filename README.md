@@ -1,89 +1,89 @@
 # Proyectos de AWS Boto3 (MEX30-SDK)
 
+
+
 ## Introducción
 
 **Propósito y Aspectos Generales**
-El propósito de este repositorio es recopilar una serie de proyectos prácticos orientados a la administración y automatización de recursos en Amazon Web Services (AWS) utilizando programación en Python.
-A medida que la infraestructura en la nube crece, resulta difícil e ineficiente administrarla únicamente y de forma manual desde la consola gráfica. 
+El propósito de este repositorio es recopilar una serie de proyectos prácticos orientados a la administración y automatización de recursos en Amazon Web Services (AWS) utilizando programación en Python. A medida que la infraestructura en la nube crece, resulta ineficiente administrarla únicamente de forma manual desde la consola; por ello, este SDK permite escalar operaciones de forma profesional.
 
 **Justificación**
-La automatización de tareas con scripts de Python permite reducir el margen de error, aumentar la velocidad de ejecución y ahorrar tiempo. Estos proyectos, desarrollados de forma interactiva en Jupyter Notebooks (`.ipynb`), demuestran mediante casos de uso reales cómo interactuar de forma programática con servicios clave de AWS, especialmente con S3 (almacenamiento) y EC2 (cómputo).
+La automatización de tareas con scripts de Python permite reducir el margen de error, aumentar la velocidad de ejecución y optimizar costos operativos. Estos proyectos demuestran, mediante casos de uso reales, cómo interactuar de forma programática con servicios clave de AWS, especialmente con S3 (almacenamiento), EC2 (cómputo) e IAM (identidad y acceso).
 
 **Guía de instalación de AWS CLI para Linux**
-AWS Command Line Interface (CLI) es una herramienta unificada que permite administrar los diferentes servicios de AWS interactuando con ellos mediante comandos en la terminal desde cualquier lugar.
+AWS Command Line Interface (CLI) es una herramienta unificada que permite administrar los diferentes servicios de AWS desde la terminal.
 
-Para instalar AWS CLI v2 en entornos Linux (se requiere curl y unzip), se pueden seguir estos pasos en la terminal:
+Para instalar AWS CLI v2 en entornos Linux, ejecuta los siguientes comandos:
 
-1. Descargar el archivo de instalación oficial:
+1. Descargar el instalador oficial:
    ```bash
    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
    ```
-2. Descomprimir el archivo descargado:
+2. Descomprimir el archivo:
    ```bash
    unzip awscliv2.zip
    ```
-3. Ejecutar el script de instalación correspondiente:
+3. Ejecutar el script de instalación:
    ```bash
    sudo ./aws/install
    ```
-4. Verificar que la instalación fue exitosa revisando la versión instalada:
+4. Verificar la instalación:
    ```bash
    aws --version
    ```
 
-> **Nota:** Para que todos los proyectos y scripts almacenados en este directorio interactúen debidamente con tu cuenta de AWS, es sumamente importante destacar que las credenciales fueron configuradas a través del comando `aws configure`. Esta herramienta te solicitará y guardará de forma segura el *AWS Access Key ID*, el *Secret Access Key* y la región por defecto, garantizando autorización al momento de realizar peticiones.
+> **Nota:** Es fundamental configurar tus credenciales mediante el comando `aws configure`. Esto solicitará tu *Access Key ID*, *Secret Access Key* y región por defecto para autorizar las peticiones del SDK.
 
 **Tecnologías Utilizadas**
-- **Python:** Lenguaje de programación principal empleado por sus capacidades en scripting.
-- **Jupyter Notebooks:** Entorno de desarrollo interactivo utilizado en todos los proyectos para documentar, estructurar y ejecutar el código fuente en celdas individuales para su fácil lectura.
-- **Boto3:** Es el SDK (Software Development Kit) de Amazon Web Services, oficial para Python. Permite crear, configurar y gestionar servicios de AWS y realizar acciones que varían desde subir un archivo a encender servidores, de forma sencilla gracias a su uso integrado en el código.
+- **Python:** Lenguaje de programación principal empleado por su versatilidad en scripting y automatización.
+- **Boto3:** El SDK oficial de AWS para Python. Permite la gestión completa de servicios de AWS directamente desde el código.
+- **Scripts Autónomos (.py):** Todos los proyectos han sido migrados a scripts ejecutables desde la terminal para facilitar su integración en pipelines de automatización.
 
 ---
 
 ## Desarrollo
 
-A continuación, se detalla el enfoque de cada uno de los proyectos incluidos, listando en cada caso las funcionalidades que desarrollan internamente estos scripts:
+A continuación, se detalla el enfoque de cada uno de los proyectos incluidos:
 
-### 1. Proyecto de Respaldo en S3 (`s3_backup_project.ipynb`)
-Permite automatizar y asegurar el respaldo de archivos locales esenciales enviándolos a un almacenamiento en la nube de Amazon S3 de forma íntegra.
-* **Crear el bucket:** Instrucciones para identificar la existencia de un bucket; de no existir, se emite la orden a AWS para crear un nuevo bucket en una región específica y preparar el alojamiento.
-* **Subir archivos y respaldarlos:** Toma elementos del disco duro local y usa mecanismos del sdk para transportarlos a los buckets alojados de manera segura.
-* **Listar archivos cargados:** Realiza una revisión del repositorio digital en S3 para mostrar en pantalla que todos los metadatos y archivos han sido cargados al 100%.
+### 1. Proyecto de Respaldo en S3 (`s3_backup.py`)
+Permite automatizar el respaldo de archivos locales hacia la nube de Amazon S3.
+* **Gestión de Buckets:** Valida la existencia del bucket y lo crea si es necesario.
+* **Carga de Archivos:** Sube elementos locales de forma íntegra utilizando el SDK.
+* **Verificación:** Lista los objetos cargados para confirmar la integridad del respaldo.
 
-### 2. Proyecto de Sincronización a S3 (`s3_sync_project.ipynb`)
-Desarrolla el concepto de un "mirror" o espejo, en donde un directorio en modo local y el entorno dentro de un Bucket S3 se mantienen en constante sincronización inteligente.
-* **Comparar estados:** Recupera la lista de objetos en S3 para compararlos con los archivos locales, evitando transferencias duplicadas.
-* **Actualizar y sincronizar contenido:** Automatiza la subida de archivos nuevos al bucket y la descarga de objetos que residen en la nube pero no en el host local.
+### 2. Proyecto de Sincronización a S3 (`s3_sync.py`)
+Implementa una sincronización inteligente tipo "mirror" entre un directorio local y un bucket S3.
+* **Comparación de Estados:** Evita transferencias duplicadas comparando archivos locales con objetos en la nube.
+* **Sincronización Bidireccional:** Automatiza tanto la subida de archivos nuevos como la descarga de objetos faltantes en el host local.
 
-### 3. Proyecto ETL Pipeline con S3 (`s3_etl_pipeline_project.ipynb`)
-Emula de forma precisa un pequeño (pipeline) para las tres etapas de manejo de datos principales (Extracción, Transformación y Carga) haciendo un uso total de S3 para resguardos del flujo de datos en procesamiento.
-* **Extraer:** Obtener y descargar sets de variables crudas desde el cloud directamente a las memorias volátiles controlando eficientemente el código y su procesamiento en entorno Python.
-* **Transformar:** Modificar estructuralmente la representación original (limpiando, filtrando e inter-cruzando información).
-* **Cargar:** Subir al S3 el objeto pulido listo para la distribución de datos de consulta.
+### 3. Proyecto ETL Pipeline con S3 (`s3_etl_pipeline.py`)
+Emula un pipeline de procesamiento de datos (Extraer, Transformar y Cargar) utilizando S3 como repositorio central.
+* **Extracción:** Ingesta de datos crudos (Raw) desde local hacia S3.
+* **Transformación:** Procesamiento en memoria para limpiar y calcular métricas de negocio.
+* **Carga:** Almacenamiento del reporte final procesado en una capa de salida en S3.
 
-### 4. Proyecto de Auditoría en EC2 (`ec2_describe_project.ipynb`)
-Un proyecto volcado enteramente al monitoreo general de cómputo en AWS (EC2), orientado al ahorro general y la consulta administrativa.
-* **Conexión con recursos de EC2:** Generar peticiones y filtros hacia el SDK para que nos reporte el estado de los recursos de cómputo generados en una cuenta en particular de Amazon.
-* **Listar y describir instancias:** Imprimir información de alto nivel como el estado (running/stopped), id, claves y métricas básicas de diferentes instancias bajo nuestra jurisdicción.
+### 4. Proyecto de Auditoría en EC2 (`ec2_describe.py`)
+Herramienta de monitoreo para recursos de cómputo (EC2), orientada a la visibilidad administrativa.
+* **Filtros de Inventario:** Consulta el estado de las instancias (Running/Stopped) y sus métricas básicas.
+* **Descripción de Recursos:** Imprime detalles técnicos como IDs, tipos de instancia y llaves de acceso.
 
-### 5. Proyecto de Limpieza en S3 (`s3_cleaner_project.ipynb`)
-Script enfocado en la eliminación de objetos masiva y la auditoría constante para librar espacio inactivo, identificando archivos obsoletos en nuestros buckets S3, apoyando al mantenimiento y prevención de costos innecesarios en la nube.
-* **Análisis y enumeración de objetos en bucket:** Lista el almacenamiento disponible para ubicar elementos viejos analizando de forma temporal sus etiquetas de último acceso/modificación.
-* **Eliminar archivos en lote:** Elimina de forma eficiente (uno a uno o todos en bloque) los datos y elementos hallados.
-* **Borrar bucket S3 vacíos:** Permite desmontar la infraestructura quitando buckets enteros si están vacíos o no se ocupan más.
+### 5. Proyecto de Limpieza en S3 (`s3_cleaner.py`)
+Enfocado en la optimización de costos mediante la eliminación masiva de objetos obsoletos.
+* **Análisis de Retención:** Identifica archivos antiguos basándose en su fecha de última modificación.
+* **Limpieza de Infraestructura:** Permite eliminar objetos en lote y desmontar buckets vacíos que ya no se utilizan.
 
-> **Importante sobre este script (Pipeline de Limpieza)**  
-> Cabe destacar que, aunque este script es excelente para la **automatización personalizada** utilizando código Python en tareas de limpieza de objetos, **AWS ofrece S3 Lifecycle Policies** de forma totalmente nativa.
-> 
-> * ¿Cuándo usar este script?: Es sumamente útil cuando se necesita una lógica compleja para disparar eliminaciones (por ejemplo, borrar solo si se determina que un backup en otro lado fue exitoso, o si se desea enviar un conjunto de métricas y un reporte por correo antes de ejecutar una eliminación masiva basándose en un registro en la base de datos).
-> * ¿Cuándo utilizar S3 Lifecycle Policies?: Estas políticas nativas de AWS son mucho mejores, de gran escalabilidad y preferibles si el objetivo son los ahorros de costos automáticos a gran escala, donde AWS se encargará detrás de la plataforma de limpiar automáticamente tus archivos pasados ciertos días definidos por regla, o reasignarlos a capas más económicas de forma permanente.
+### 6. Proyecto de Auditoría de Seguridad (`aws_security_audit.py`)
+
+Script especializado en fortalecer la postura de seguridad de la cuenta de AWS.
+* **Auditoría de IAM:** Detecta llaves de acceso antiguas que necesitan rotación y usuarios sin MFA activado.
+* **Seguridad de Red:** Identifica Security Groups con el puerto 22 (SSH) expuesto al mundo (0.0.0.0/0).
 
 ---
 
 ## Resultados y Conclusión
 
 **Resultados**
-A lo largo de estos proyectos realizados desde notebooks de Python, se logró confirmar de primera mano cómo aprovechar las herramientas de desarrollo para comunicarse directamente con AWS. Desde operaciones simples y habituales en S3, tales como respaldos, limpieza selectiva y transferencias ETL, hasta la descripción e inventariado visual de componentes y máquinas virtuales en EC2 sin utilizar clics de ratón ni interfaces basadas en portales y navegadores web (Consola de AWS).
+A través de estos scripts, se ha logrado automatizar tareas críticas de administración en AWS sin depender de la consola web. Desde operaciones de almacenamiento masivo y procesos ETL, hasta la monitorización de seguridad y auditoría de recursos de cómputo, el uso de Boto3 garantiza precisión y escalabilidad.
 
 **Conclusión**
-La integración de las funcionalidades de AWS en rutinas mediante Python, empoderadas por el uso del marco de Boto3, incrementa enormemente los beneficios logísticos hacia flujos de trabajo repetitivos en nuestra cuenta de AWS. El poder escalar programáticamente estas necesidades de manejo y el hecho de aplicar la mentalidad de 'Infraestructura como código' da como resultado soluciones inmediatas, confiables y con posibilidades ilimitadas para adaptarlas mediante las herramientas interconectadas a casos de uso que demanda la era digital de forma moderna y eficiente.
+La transición de tareas manuales a scripts programáticos incrementa la confiabilidad de la infraestructura. El enfoque de "Infraestructura como Código" adoptado en este repositorio permite adaptar las soluciones de AWS a necesidades digitales modernas, logrando flujos de trabajo eficientes, seguros y automatizados.
