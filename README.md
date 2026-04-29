@@ -1,7 +1,6 @@
 # Proyectos de AWS Boto3 (MEX30-SDK)
 
 
-
 ## Introducción
 
 **Propósito y Aspectos Generales**
